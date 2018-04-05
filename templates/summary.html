@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block Body_Right %}
+      <!--替换模块 Start-->
+        {#开始进行数据渲染#}
+         <div id="result">
+             <div class="span9" id="content">
+                    <div class="row-fluid">
+                        <div class="alert alert-success">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4>
+                        	The operation completed successfully</div>
+                        	<div class="navbar">
+                            	<div class="navbar-inner">
+	                                <ul class="breadcrumb">
+	                                    <i class="icon-chevron-left hide-sidebar"><a href='#' title="Hide Sidebar" rel='tooltip'>&nbsp;</a></i>
+	                                    <i class="icon-chevron-right show-sidebar" style="display:none;"><a href='#' title="Show Sidebar" rel='tooltip'>&nbsp;</a></i>
+	                                    <li>
+	                                        <a href="#">Summary</a> <span class="divider"></span>
+	                                    </li>
+	                                </ul>
+                            	</div>
+                        	</div>
+                    	</div>
+
+{#                 IP信息#}
+                    <div class="row-fluid">
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Statistics_Ip</div>
+                                <div class="pull-right"><span class="badge badge-warning">View More</span></div>
+                            </div>
+                             <div class="block-content collapse in">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>HostIp</th>
+                                                <th>Host_Mac</th>
+                                                <th>Out_Ip</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+{#                                        填写数据#}
+                                            <tr>
+                                                <th>{{ arr[4] }}</th>
+                                                <th>{{ arr[1] }}</th>
+                                                <th>{{ arr[2] }}</th>
+                                                <th>{{ arr[3] }}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                        </div>
+                        <!-- /block -->
+                    </div>
+                 {#                 IP信息#}
+                    <div class="row-fluid">
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Version_Info</div>
+                                <div class="pull-right"><span class="badge badge-warning">View More</span></div>
+                            </div>
+                             <div class="block-content collapse in">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Sys_Name</th>
+                                                <th>Os_Platform</th>
+                                                <th>Os_Version</th>
+                                                <th>Architecture</th>
+                                                <th>Machine</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+{#                                        填写数据#}
+                                            <tr>
+                                                <th>{{ arr[11] }}</th>
+                                                <th>{{ arr[5] }}</th>
+                                                <th>{{ arr[6] }}</th>
+                                                <th>{{ arr[7] }}</th>
+                                                <th>{{ arr[8] }}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                        </div>
+                        <!-- /block -->
+                    </div>
+
+{#                 系统信息#}
+                    <div class="row-fluid">
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Sys_Info</div>
+                                <div class="pull-right"><span class="badge badge-warning">View More</span></div>
+                            </div>
+                             <div class="block-content collapse in">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Pc_Name</th>
+                                                <th>Node</th>
+                                                <th>Processor</th>
+                                                <th>Login_Name</th>
+                                                <th>Terminal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+{#                                        填写数据#}
+                                            <tr>
+                                                <th>{{ arr[12] }}</th>
+                                                <th>{{ arr[9] }}</th>
+                                                <th>{{ arr[10] }}</th>
+                                                <th>{{ arr[13] }}</th>
+                                                <th>{{ arr[14] }}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                        </div>
+                        <!-- /block -->
+                    </div>
+
+
+
+        {#                 Cpu信息#}
+                                  <div class="row-fluid">
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Cpu_Info</div>
+                                <div class="pull-right"><span class="badge badge-warning">View More</span></div>
+                            </div>
+                             <div class="block-content collapse in">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Login_Name</th>
+                                                <th>Cpu_Times_User</th>
+                                                <th>Cpu_CountP</th>
+                                                <th>Cpu_CountL</th>
+                                                <th>Boot_Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+{#                                        填写数据#}
+                                            <tr>
+                                                <th>{{ arr[13] }}</th>
+                                                <th>{{ arr[15] }}</th>
+                                                <th>{{ arr[16] }}</th>
+                                                <th>{{ arr[17] }}</th>
+                                                <th>{{ arr[18] }}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                        </div>
+                        <!-- /block -->
+                    </div>
+ {#                 More Inforation#}
+                                  <div class="row-fluid">
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">More_Info</div>
+                                <div class="pull-right"><span class="badge badge-warning">View More</span></div>
+                            </div>
+                             <div class="block-content collapse in">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Mem_Total</th>
+                                                <th>Disk_Usage</th>
+                                                <th>S_Memory</th>
+                                                <th>Python_Complier</th>
+                                                <th>Python_Implementation</th>
+                                                <th>Python_Version</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+{#                                        填写数据#}
+                                            <tr>
+                                                <th>{{ arr[19]/1024/1024/1024 }}G</th>
+                                                <th>{{ arr[20]/1024/1024/1024 }}G</th>
+                                                <th>{{ arr[21]/1024/1024/1024 }}G</th>
+                                                <th>{{ arr[22] }}</th>
+                                                <th>{{ arr[23] }}</th>
+                                                <th>{{ arr[24] }}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                        </div>
+                        <!-- /block -->
+                    </div>
+
+                    </div>
+                </div>
+
+</div>
+
+
+        <!--替换模块end-->
+
+{% end %}
+
+
+
+{% block Script %}
+        <!--/.fluid-container-->
+        <script src="/static/vendors/jquery-1.9.1.min.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/vendors/easypiechart/jquery.easy-pie-chart.js"></script>
+        <script src="/static/assets/scripts.js"></script>
+        <script>
+        $(function() {
+            // Easy pie charts
+            $('.chart').easyPieChart({animate: 1000});
+        });
+        </script>
+{#        加载指定页面#}
+  <script>
+      function getValue(val){
+//          alert(val);
+          $.post("/Summary",{IP_OPT:val}, function(data,status){
+              if(status == "success")
+              {
+                  $("#result").html(data);
+              }
+              else
+              {
+                  alert("Ajax 失败");
+              }
+          });
+      }
+  </script>
+
+    {% end %}

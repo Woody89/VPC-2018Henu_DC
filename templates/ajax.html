@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>测试Ajax</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <style type="text/css">
+#result{
+    border: 10px;
+    font-size: 50px;
+    background: #ff0fef;
+}
+    </style>
+</head>
+<body>
+
+    <input type="text" id="word" > <br>
+    <button id="foo">点击</button>
+
+    <div id="result">
+
+    </div>
+
+
+<script type="text/javascript">
+    $("#foo").click(function()
+    {
+        var word = $("#word").val(); //获取文本框的输入
+
+        //把word发给后台php程序
+        //返回的数据放在data中，返回状态放在status
+        $.post("/test",{message:word}, function(data,status){
+            if(status == "success")
+            {
+                $("#result").html(data);
+            }
+            else
+            {
+                alert("Ajax 失败");
+            }
+        });
+    });
+</script>
+</body>
+</html>

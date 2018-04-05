@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="no-js">
+<meta charset='utf-8'>
+    <head>
+        <title>Tree-Leaf</title>
+        <!-- Bootstrap -->
+        <script src='/static/jquery-1.8.3.min.js'></script>
+        <script src='/static/highcharts.js'></script>
+        <script src='/static/exporting.js'></script>
+         <script src='/static/highcharts-3d.js'></script>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="/static/vendors/fullcalendar/fullcalendar.css" rel="stylesheet" media="screen">
+        <link href="/static/vendors/easypiechart/jquery.easy-pie-chart.css" rel="stylesheet" media="screen">
+        <link href="/static/assets/styles.css" rel="stylesheet" media="screen">
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="/static/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+<style>
+
+    .Left_Button{
+        height: 120px;
+    }
+</style>
+
+    <body>
+{#    头部导航作用#}
+    {% block header %}
+
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+
+
+                    <a class="brand" href="#">Admin Panel</a>
+
+                    <div class="nav-collapse collapse">
+
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="#" role="button"> <i class="icon-user"></i> Vincent Gabriel
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav">
+                            <li class="active">
+                                <a href="/">Dashboard</a>
+                            </li>
+                             <li>
+                                <a href="/Summary"  >Summary</a>
+                            </li>
+                            <li>
+                                <a href="/Statistics"  >Statistics</a>
+                            </li>
+                            <li>
+                                <a href="/Calendar">Calendar</a>
+                            </li>
+                            <li>
+                                <a href="/Logs" >Logs</a>
+                            </li>
+                               <li>
+                                <a href="/Video">Video</a>
+                            </li>
+
+                        </ul>
+
+
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+   {% end %}
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+
+
+{#右半边的数据可变渲染#}
+  <!--/span-->
+{% block Body_Right %}
+测试页面
+<div id="container" style="height: 500px"></div>
+
+ {% end %}
+            </div>
+
+{#版权#}
+           {% block Footer %}
+            <hr>
+            <footer>
+
+                <p>&copy; Tree-Leafs 2018 - More Info <a href="http://www.baidu.com/" target="_blank" title="cssmoban">流火夏梦</a>
+            </footer>
+           {% end %}
+
+        </div>
+
+{#每个页面中特殊的JS脚本#}
+{% block Script %}
+<script>
+$(function () {
+    // 使用当前时区，否则东八区会差八个小时
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+    // Give the points a 3D feel by adding a radial gradient
+    Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: {
+                cx: 0.4,
+                cy: 0.3,
+                r: 0.5
+            },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
+            ]
+        };
+    });
+    // Set up the chart
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            margin: 100,
+            type: 'scatter',
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 30,
+                depth: 250,
+                viewDistance: 5,
+                frame: {
+                    bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
+                    back: { size: 1, color: 'rgba(0,0,0,0.04)' },
+                    side: { size: 1, color: 'rgba(0,0,0,0.06)' }
+                }
+            }
+        },
+        title: {
+            text: '3D散点图'
+        },
+        subtitle: {
+            text: '单击并拖动鼠标可旋转绘图区'
+        },
+        plotOptions: {
+            scatter: {
+                width: 10,
+                height: 10,
+                depth: 10
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 10,
+            title: null
+        },
+        xAxis: {
+            min: 0,
+            max: 10,
+            gridLineWidth: 1
+        },
+        zAxis: {
+            min: 0,
+            max: 10
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: '随机数据',
+            colorByPoint: true,
+            data: [[1, 6, 5], [8, 7, 9], [1, 3, 4]]
+        }]
+    });
+    // Add mouse events for rotation
+    $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
+        e = chart.pointer.normalize(e);
+        var posX = e.pageX,
+            posY = e.pageY,
+            alpha = chart.options.chart.options3d.alpha,
+            beta = chart.options.chart.options3d.beta,
+            newAlpha,
+            newBeta,
+            sensitivity = 5; // lower is more sensitive
+        $(document).bind({
+            'mousemove.hc touchdrag.hc': function (e) {
+                // Run beta
+                newBeta = beta + (posX - e.pageX) / sensitivity;
+                newBeta = Math.min(100, Math.max(-100, newBeta));
+                chart.options.chart.options3d.beta = newBeta;
+                // Run alpha
+                newAlpha = alpha + (e.pageY - posY) / sensitivity;
+                newAlpha = Math.min(100, Math.max(-100, newAlpha));
+                chart.options.chart.options3d.alpha = newAlpha;
+                chart.redraw(false);
+            },
+            'mouseup touchend': function () {
+                $(document).unbind('.hc');
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+    {% end %}
+
+    </body>
+</html>

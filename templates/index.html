@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block Body_Right %}
+         {#开始进行数据渲染#}
+<div id="result">
+    <div class="span9" id="content">
+                    <div class="row-fluid">
+                        <div class="alert alert-success">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Success</h4>
+                        	The operation completed successfully</div>
+                        	<div class="navbar">
+                            	<div class="navbar-inner">
+	                                <ul class="breadcrumb">
+	                                    <i class="icon-chevron-left hide-sidebar"><a href='#' title="Hide Sidebar" rel='tooltip'>&nbsp;</a></i>
+	                                    <i class="icon-chevron-right show-sidebar" style="display:none;"><a href='#' title="Show Sidebar" rel='tooltip'>&nbsp;</a></i>
+	                                    <li>
+	                                        <a href="#">Dashboard</a> <span class="divider"></span>
+	                                    </li>
+	                                </ul>
+                            	</div>
+                        	</div>
+                    	</div>
+
+                    <div class="row-fluid">
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Explain</div>
+                                <div class="pull-right"><span class="badge badge-warning">View More</span>
+
+                                </div>
+                            </div>
+                            <div class="block-content collapse in">
+                                        <h2>Tree-Leaf  分布式监控系统说明</h2>
+<p class="lead">本项目为开源项目，所有代码已经放到GitHub上，所有需要部署应用开发的工程师或爱好者均可以从网址得到所有开源代码
+，有权进行代码的修改发布。</p>
+
+                            </div>
+                        </div>
+                        <!-- /block -->
+                    </div>
+
+
+                  <div class="row-fluid">
+                      <table class="table">
+                                  <tr class="success">
+                                    <th>Host IP</th>
+                                      <th>SysName</th>
+                                      <th>User</th>
+                                      <th>Kernel</th>
+                                    <th>Host Mac</th>
+                                  </tr>
+                                      {% for i in All_Info %}
+                                             <tr class="success">
+                                                 <td>{{ i[1] }}</td>
+                                                  <td>{{ i[11] }}</td>
+                                                 <td>{{ i[13] }}</td>
+                                                 <td>{{ i[8] }}</td>
+                                                 <td>{{ i[2] }}</td>
+                                            </tr>
+                                      {% end %}
+
+
+                                </table>
+
+
+
+                        <!-- /block -->
+                    </div>
+
+
+
+                </div>
+
+
+
+                                                      </div>
+{% end %}
+
+
+
+{% block Script %}
+        <!--/.fluid-container-->
+        <script src="/static/vendors/jquery-1.9.1.min.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/vendors/easypiechart/jquery.easy-pie-chart.js"></script>
+        <script src="/static/assets/scripts.js"></script>
+        <script>
+        $(function() {
+            // Easy pie charts
+            $('.chart').easyPieChart({animate: 1000});
+        });
+        </script>
+{#        加载指定页面#}
+  <script>
+      function getValue(val){
+//          alert(val);
+          $.post("/",{IP_OPT:val}, function(data,status){
+              if(status == "success")
+              {
+                  $("#result").html(data);
+              }
+              else
+              {
+                  alert("Ajax 失败");
+              }
+          });
+      }
+  </script>
+
+    {% end %}

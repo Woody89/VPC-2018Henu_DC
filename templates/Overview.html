@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="no-js">
+<meta charset='utf-8'>
+    <head>
+        <title>Tree-Leaf</title>
+        <!-- Bootstrap -->
+        <script src='/static/jquery.js'></script>
+        <script src='/static/highstock.js'></script>
+        <script src='/static/exporting.js'></script>
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="/static/vendors/fullcalendar/fullcalendar.css" rel="stylesheet" media="screen">
+        <link href="/static/vendors/easypiechart/jquery.easy-pie-chart.css" rel="stylesheet" media="screen">
+        <link href="/static/assets/styles.css" rel="stylesheet" media="screen">
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="/static/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+<style>
+
+    .Left_Button{
+        height: 120px;
+    }
+</style>
+
+    <body>
+{#    头部导航作用#}
+    {% block header %}
+
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+
+
+                    <a class="brand" href="#">Tree-Leaf</a>
+
+                    <div class="nav-collapse collapse">
+
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="#" role="button"> <i class="icon-user"></i> Vincent Gabriel
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav">
+                            <li class="active">
+                                <a href="/">Dashboard</a>
+                            </li>
+                             <li>
+                                <a href="/Summary"  >Summary</a>
+                            </li>
+                            <li>
+                                <a href="/Statistics"  >Statistics</a>
+                            </li>
+                            <li>
+                                <a href="/Calendar">Calendar</a>
+                            </li>
+                            <li>
+                                <a href="/Logs" >Logs</a>
+                            </li>
+                               <li>
+                                <a href="/Video">Video</a>
+                            </li>
+
+                        </ul>
+
+
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+   {% end %}
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+
+
+{#右半边的数据可变渲染#}
+  <!--/span-->
+{% block Body_Right %}
+
+ <div id="DiskPer" style="height: 400px; min-width: 310px"></div>
+                <!--内存数据加载-->
+<!--<div id="container" style="height: 400px; min-width: 160px;background:red;"></div>-->
+
+ {% end %}
+            </div>
+
+{#版权#}
+           {% block Footer %}
+            <hr>
+            <footer>
+
+                <p>&copy; Tree-Leafs 2018 - More Info <a href="http://www.baidu.com/" target="_blank" title="cssmoban">流火夏梦</a>
+            </footer>
+           {% end %}
+
+        </div>
+
+{#每个页面中特殊的JS脚本#}
+{% block Script %}
+
+
+<!--硬盘使用占比-->
+<script>
+    $.getJSON('/MemoryPer', function (data) {
+    $('#DiskPer').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+
+        },
+        title: {
+            text: '内存使用百分比'
+        },
+        tooltip: {
+            headerFormat: '{series.name}<br>',
+            pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                },
+                states: {
+                    hover: {
+                        enabled: false
+                    }
+                },
+                slicedOffset: 20,         // 突出间距
+                point: {                  // 每个扇区是数据点对象，所以事件应该写在 point 下面
+                    events: {
+                        // 鼠标滑过是，突出当前扇区
+                        mouseOver: function() {
+                            this.slice();
+                        },
+                        // 鼠标移出时，收回突出显示
+                        mouseOut: function() {
+                            this.slice();
+                        },
+                        // 默认是点击突出，这里屏蔽掉
+                        click: function() {
+                            return false;
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '内存使用占比',
+            data : data
+        }]
+    });
+});
+
+</script>
+
+
+<script>
+$(function () {
+    // 使用当前时区，否则东八区会差八个小时
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+    $.getJSON('/MemoryUsedLine', function (data) {
+        // Create the chart
+        $('#container').highcharts('StockChart', {
+        chart:{
+        events:{
+            load:function(){
+                var series = this.series[0]
+                setInterval(function(){
+                $.getJSON('/MemoryUsedLine',function(res){
+                    $.each(res,function(i,v){
+                        series.addPoint(v)
+                    })
+                })
+                },1000)
+            }
+        }
+        },
+            rangeSelector : {
+                selected : 1
+            },
+
+            title : {
+                text : '内存数据'
+            },
+
+            series : [{
+                name : '流火夏梦主机内存',
+                type: 'line',
+                lineWidth: 1.5,
+                data : data,
+                tooltip: {
+                    valueDecimals: 2
+                }
+            }]
+        });
+    });
+
+});
+</script>
+
+
+
+
+
+
+
+
+
+    {% end %}
+
+    </body>
+</html>
